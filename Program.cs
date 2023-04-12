@@ -12,8 +12,17 @@ namespace VMPResources
     {
         static void Main(string[] args)
         {
-            Assembly _assembly = Assembly.LoadFrom(args[0]);
+            if (args.Length != 2)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("Usage: VMPResources.exe module.exe ref_module.exe");
+                Console.ReadKey();
+                return;
+            }
+
             ModuleDefMD _module = ModuleDefMD.Load(args[0]);
+            Assembly _assembly = Assembly.LoadFrom(args[1]);
+           
             RuntimeHelpers.RunModuleConstructor(_assembly.ManifestModule.ModuleHandle);
             foreach (AssemblyName _assemblyName in _assembly.GetReferencedAssemblies())
             {
